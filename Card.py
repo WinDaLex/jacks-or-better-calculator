@@ -6,13 +6,16 @@ class Card():
     # suit: 'spade', 'heart', 'club', 'diamand'
     # rank: 'A', '2', '3', '4', '5', '6', '7', 8', '9', '10', 'J', 'Q', 'K'
     def __init__(self, suit, rank):
-        if suit not in self.mapperSuit: print 'ERROR'; return
-        if rank not in self.mapperRank: print 'ERROR'; return
+        if suit not in self.mapperSuit: print 'SUIT ERROR'; return
+        if rank not in self.mapperRank: print 'RANK ERROR'; return
         self.suit = suit
         self.rank = rank
         self.value = self.mapperSuit[self.suit] * 13 + \
                 self.mapperRank[self.rank]
         self.show()
+
+    def __lt__(self, obj):
+        return self.rank < obj.rank
 
     def show(self):
         print self.suit, self.rank, self.value
