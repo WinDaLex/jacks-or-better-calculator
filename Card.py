@@ -12,7 +12,6 @@ class Card():
         self.rank = rank
         self.value = self.mapperSuit[self.suit] * 13 + \
                 self.mapperRank[self.rank]
-        self.show()
 
     def __lt__(self, obj):
         return self.rank < obj.rank
