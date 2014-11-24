@@ -14,7 +14,7 @@ class Card():
                 self.mapperRank[self.rank]
 
     def __lt__(self, obj):
-        return self.mapperRank[self.rank] < self.mapperRank[obj.rank]
+        return self.value < obj.value
 
     def show(self):
         print self.suit, self.rank, self.value
