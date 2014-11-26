@@ -5,14 +5,16 @@ class Card():
     ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
 
     def __init__(self, suit, rank):
-        if suit not in self.suits: raise ValueError, 'wrong suit'; return
-        if rank not in self.ranks: raise ValueError, 'wrong rank'; return 
+        if suit not in self.suits: raise ValueError, 'invalid suit'; return
+        if rank not in self.ranks: raise ValueError, 'invalid rank'; return 
         self.suit = suit
         self.rank = rank
 
     def __str__(self):
         return self.suit + ' ' + self.rank
 
+    def __eq__(self, obj):
+        return self.suit == obj.suit and self.rank == obj.rank
 
 class Hand():
     """A hand is five distinct cards which players got."""
@@ -50,3 +52,10 @@ class Hand():
             if attr_val not in res: res[attr_val] = 0
             res[attr_val] += 1
         return res
+
+    def __eq__(self, obj):
+        for i in range(0, 5):
+            if self[i] != obj[i]:
+                return False
+        return True
+
