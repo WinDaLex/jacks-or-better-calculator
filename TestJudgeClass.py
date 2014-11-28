@@ -39,14 +39,14 @@ class TestJudgeClass(unittest.TestCase):
 
     def testTwoPair(self):
         judge = Judge(Hand('spade A, heart A, diamand 4, heart 4, spade 5'))
-        self.assertEqual([judge.result, judge.payoff], ['Two Pair', 75])
+        self.assertEqual([judge.result, judge.payoff], ['Two Pair', 40])
 
     def testJacksOrBetter(self):
         judge = Judge(Hand('spade J, heart J, diamand 4, heart 9, spade 5'))
-        self.assertEqual([judge.result, judge.payoff], ['Jackers or Better', 10])
+        self.assertEqual([judge.result, judge.payoff], ['Jacks or Better', 10])
 
     def testNothing(self):
-        judge = Judge(Hand('club A, club 3, club 6, club 4, club 7'))
+        judge = Judge(Hand('club A, club 3, heart 6, club 4, club 7'))
         self.assertEqual([judge.result, judge.payoff], ['Nothing', 0])
         judge = Judge(Hand('spade A, club K, spade 5, spade 4, spade J'))
         self.assertEqual([judge.result, judge.payoff], ['Nothing', 0])
