@@ -56,4 +56,4 @@ class Judge():
             if l[i] != l[i - 1] + 1:
                 bo = False
 
-        if bo: return l[0] == l[1]-1 or l[4] == l[3] + 1
+        if bo: return l[0] == l[1] - 1 or len(l) == 6 and l[5] == 14 and l[4] == 13

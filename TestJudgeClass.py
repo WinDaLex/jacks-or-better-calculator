@@ -52,6 +52,8 @@ class TestJudgeClass(unittest.TestCase):
         self.assertEqual([judge.result, judge.payoff], ['Nothing', 0])
         judge = Judge(Hand('spade 6, heart A, diamand 4, heart 4, spade 5'))
         self.assertEqual([judge.result, judge.payoff], ['Nothing', 0])
+        judge = Judge(Hand('spade 2, heart 4, diamand 5, heart 6, spade 7'))
+        self.assertEqual([judge.result, judge.payoff], ['Nothing', 0])
 
 
 if __name__ == '__main__':
