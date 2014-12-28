@@ -64,7 +64,7 @@ class Solver():
         num = 5 - len(cards)
         self.choose(cards, self.desk, 5 - len(cards), 0)
         print 'current sum = %d, current num = %d' % (self.cur_sum, self.cur_num)
-        return self.cur_sum / self.cur_num
+        return float(self.cur_sum) / self.cur_num
         
     def choose(self, cards, desk, num, index):
         if num == 0:
