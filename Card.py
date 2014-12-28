@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+
 class Card():
     """A poker card with 4 kinds of suit and 13 kinds of rank, but excluding jokers."""
 
     suits = ['spade', 'heart', 'club', 'diamand']
     ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    suitsToChar = {'spade':'♠', 'heart':'♥', 'club':'♣', 'diamand':'♦'}
 
     def __init__(self, suit, rank):
         if suit not in self.suits: raise ValueError, 'invalid suit'; return
@@ -11,7 +14,7 @@ class Card():
         self.rank = rank
 
     def __str__(self):
-        return self.suit + ' ' + self.rank
+        return self.suitsToChar[self.suit] + self.rank
 
     def __eq__(self, obj):
         return self.suit == obj.suit and self.rank == obj.rank
