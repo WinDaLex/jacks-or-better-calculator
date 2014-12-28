@@ -60,23 +60,22 @@ class Solver():
         for i in range(1, 2**5):
             cur = []
             for j in range(5):
-                if 2**j & i >= 1:
+                if 2**j & i != 0:
                     cur.append(hand[j])
             res.append(cur)
         return res
 
     def expectation(self, cards):
-        num = 5 - len(cards)
-        self.choose(cards, self.desk, 5 - len(cards), 0)
+        self.choose(cards, 0)
         return float(self.cur_sum) / self.cur_num, self.cur_sum, self.cur_num
         
-    def choose(self, cards, desk, num, index):
-        if num == 0:
+    def choose(self, cards, index):
+        if len(cards) == 5:
             self.cur_sum += Judge(Hand(cards)).payoff
             self.cur_num += 1
             return
 
-        for i in range(index, len(desk)):
-            cards.append(desk[i])
-            self.choose(cards, desk, num - 1, i + 1)
-            cards.remove(desk[i])
+        for i in range(index, len(self.desk)):
+            cards.append(self.desk[i])
+            self.choose(cards, i + 1)
+            cards.remove(self.desk[i])
