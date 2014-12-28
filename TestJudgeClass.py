@@ -16,11 +16,11 @@ class TestJudgeClass(unittest.TestCase):
         self.assertEqual([result, payoff], ['Straight Flush', 1500])
 
     def testFourOfAKind(self):
-        result, payoff = Judge.judge(Hand('spade 9, heart 9, diamand 9, heart 10, club 9'))
+        result, payoff = Judge.judge(Hand('spade 9, heart 9, diamond 9, heart 10, club 9'))
         self.assertEqual([result, payoff], ['Four of a Kind', 600])
 
     def testFullHouse(self):
-        result, payoff = Judge.judge(Hand('spade A, heart A, diamand A, club 2, spade 2'))
+        result, payoff = Judge.judge(Hand('spade A, heart A, diamond A, club 2, spade 2'))
         self.assertEqual([result, payoff], ['Full House', 300])
 
     def testFlush(self):
@@ -28,21 +28,21 @@ class TestJudgeClass(unittest.TestCase):
         self.assertEqual([result, payoff], ['Flush', 200])
 
     def testStraight(self):
-        result, payoff = Judge.judge(Hand('spade A, heart 2, diamand 3, heart 4, spade 5'))
+        result, payoff = Judge.judge(Hand('spade A, heart 2, diamond 3, heart 4, spade 5'))
         self.assertEqual([result, payoff], ['Straight', 125])
-        result, payoff = Judge.judge(Hand('spade 10, heart J, diamand Q, heart K, spade A'))
+        result, payoff = Judge.judge(Hand('spade 10, heart J, diamond Q, heart K, spade A'))
         self.assertEqual([result, payoff], ['Straight', 125])
 
     def testThreeOfAKind(self):
-        result, payoff = Judge.judge(Hand('spade A, heart A, diamand A, heart 4, spade 5'))
+        result, payoff = Judge.judge(Hand('spade A, heart A, diamond A, heart 4, spade 5'))
         self.assertEqual([result, payoff], ['Three of a Kind', 75])
 
     def testTwoPair(self):
-        result, payoff = Judge.judge(Hand('spade A, heart A, diamand 4, heart 4, spade 5'))
+        result, payoff = Judge.judge(Hand('spade A, heart A, diamond 4, heart 4, spade 5'))
         self.assertEqual([result, payoff], ['Two Pair', 40])
 
     def testJacksOrBetter(self):
-        result, payoff = Judge.judge(Hand('spade J, heart J, diamand 4, heart 9, spade 5'))
+        result, payoff = Judge.judge(Hand('spade J, heart J, diamond 4, heart 9, spade 5'))
         self.assertEqual([result, payoff], ['Jacks or Better', 10])
 
     def testNothing(self):
@@ -50,9 +50,9 @@ class TestJudgeClass(unittest.TestCase):
         self.assertEqual([result, payoff], ['Nothing', 0])
         result, payoff = Judge.judge(Hand('spade A, club K, spade 5, spade 4, spade J'))
         self.assertEqual([result, payoff], ['Nothing', 0])
-        result, payoff = Judge.judge(Hand('spade 6, heart A, diamand 4, heart 4, spade 5'))
+        result, payoff = Judge.judge(Hand('spade 6, heart A, diamond 4, heart 4, spade 5'))
         self.assertEqual([result, payoff], ['Nothing', 0])
-        result, payoff = Judge.judge(Hand('spade 2, heart 4, diamand 5, heart 6, spade 7'))
+        result, payoff = Judge.judge(Hand('spade 2, heart 4, diamond 5, heart 6, spade 7'))
         self.assertEqual([result, payoff], ['Nothing', 0])
 
 

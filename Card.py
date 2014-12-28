@@ -3,9 +3,9 @@
 class Card():
     """A poker card with 4 kinds of suit and 13 kinds of rank, but excluding jokers."""
 
-    suits = ['spade', 'heart', 'club', 'diamand']
+    suits = ['spade', 'heart', 'club', 'diamond']
     ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
-    suitsToChar = {'spade':'♠', 'heart':'♥', 'club':'♣', 'diamand':'♦'}
+    suitsToChar = {'spade':'♠', 'heart':'♥', 'club':'♣', 'diamond':'♦'}
 
     def __init__(self, suit, rank):
         if suit not in self.suits: raise ValueError, 'invalid suit'; return

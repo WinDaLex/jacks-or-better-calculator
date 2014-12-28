@@ -15,11 +15,11 @@ class TestCardClass(unittest.TestCase):
 
     def test__str__(self):
         self.assertEqual(Card('club', 'K').__str__(), 'club K')
-
+ 
 class TestHandClass(unittest.TestCase):
 
     def testConstruction(self):
-        with self.assertRaises(ValueError): Hand('club A, heart A, spade A, diamand A')
+        with self.assertRaises(ValueError): Hand('club A, heart A, spade A, diamond A')
         with self.assertRaises(ValueError): Hand([Card('club', 'A')])
         with self.assertRaises(ValueError): Hand([1, 2, 3, 4, 5])
         with self.assertRaises(ValueError): Hand(1)
