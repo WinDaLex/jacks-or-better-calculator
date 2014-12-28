@@ -1,7 +1,7 @@
 import time
 
 from Card import *
-from Judge import *
+import Judge
 from Game import *
 
 class Solver():
@@ -36,7 +36,7 @@ class Solver():
             e, s, n = self.expectation(cards)
             end = time.time()
             no += 1
-            print '[No.%2d] E = %7d/%6d = %5.2f, spent: %6.3fs, held:' % (no, s, n, e, end - start),
+            print '[No.%2d] E = %7d/%6d = %5.2f, spent: %5.3fs, held:' % (no, s, n, e, end - start),
             for card in cards:
                 print card,
             print
@@ -71,11 +71,12 @@ class Solver():
         
     def choose(self, cards, index):
         if len(cards) == 5:
-            self.cur_sum += Judge(Hand(cards)).payoff
+            result, payoff = Judge.judge(Hand(cards))
+            self.cur_sum += payoff
             self.cur_num += 1
             return
 
         for i in range(index, len(self.desk)):
             cards.append(self.desk[i])
             self.choose(cards, i + 1)
-            cards.remove(self.desk[i])
+            cards.pop()
