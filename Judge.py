@@ -11,30 +11,41 @@ class Judge():
         self.payoff = self.PAYOFF[self.result]
 
     def compute(self):
+        m = self.hand.dividedByRank()
+        numOfRank = sorted(m.values(), reverse=True)
+
+        if numOfRank[0] == 4: return 'Four of a Kind'
+        if numOfRank[0] == 3 and numOfRank[1] == 2: return 'Full House'
+        if numOfRank[0] == 3: return 'Three of a Kind'
+        if numOfRank[0] == 2 and numOfRank[1] == 2: return 'Two Pair'
+        if numOfRank[0] == 2:
+            for i in range(0, 5):
+                if self.hand[i].rank in ['J', 'Q', 'K', 'A']:
+                    for j in range(i+1, 5):
+                        if self.hand[i].rank == self.hand[j].rank:
+                            return 'Jacks or Better'
+
+        '''
         if self.isFlush() and self.isStraight():
             for i in range(0, 5):
                 if self.hand[i].rank == 'A':
                     return 'Royal Flush'
             return 'Straight Flush'
-        
-        m = self.hand.dividedByRank()
-        numOfRank = sorted(m.values(), reverse=True)
 
-        if numOfRank[0] == 4: return 'Four of a Kind'
-        elif numOfRank[0] == 3 and numOfRank[1] == 2: return 'Full House'
-        
         if self.isFlush(): return 'Flush'
         if self.isStraight(): return 'Straight'
+        '''
 
-        if numOfRank[0] == 3: return 'Three of a Kind'
-        if numOfRank[0] == 2 and numOfRank[1] == 2: return 'Two Pair'
-        if numOfRank[0] == 2:
-            for i in range(0, 5):
-                if self.hand[i].rank == 'J' or self.hand[i].rank == 'Q' \
-                        or self.hand[i].rank == 'K' or self.hand[i].rank == 'A':
-                    for j in range(i+1, 5):
-                        if self.hand[i].rank == self.hand[j].rank:
-                            return 'Jacks or Better'
+        if self.isFlush():
+            if self.isStraight():
+                for i in range(0, 5):
+                    if self.hand[i].rank == 'A':
+                        return 'Royal Flush'
+                return 'Straight Flush'
+            else:
+                return 'Flush'
+
+        if self.isStraight(): return 'Straight'
 
         return 'Nothing'
 
