@@ -1,3 +1,5 @@
+import time
+
 from Card import *
 from Judge import *
 from Game import *
@@ -14,6 +16,8 @@ class Solver():
         self.cur_num = 0
 
     def solve(self, hand):
+        before_all_starts = time.time()
+
         for card in hand:
             print card
             self.desk.remove(card)
@@ -27,17 +31,23 @@ class Solver():
         for cards in hands:
             self.cur_sum = 0
             self.cur_num = 0
+            start = time.time()
             e = self.expectation(cards)
-            print 'current: ', 'e = ', e, ', cards = ', 
+            end = time.time()
+            print 'e = %.2f, time: %.3fs, cards =' % (e, end - start),
             for card in cards:
                 print card,
             print
+
             if e > max_e:
                 max_e, max_cards = e, cards
 
         for card in max_cards:
-            print card
+            print card,
+        print
 
+        after_all_ends = time.time()
+        print 'Total time spent: %.3fs' % (after_all_ends - before_all_starts)
 
     def hold(self, hand):
         res = []
@@ -53,7 +63,7 @@ class Solver():
     def expectation(self, cards):
         num = 5 - len(cards)
         self.choose(cards, self.desk, 5 - len(cards), 0)
-        print 'cur_sum = ', self.cur_sum, ', cur_num = ', self.cur_num
+        print 'current sum = %d, current num = %d' % (self.cur_sum, self.cur_num)
         return self.cur_sum / self.cur_num
         
     def choose(self, cards, desk, num, index):
