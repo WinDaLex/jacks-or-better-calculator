@@ -18,9 +18,9 @@ class Solver():
     def solve(self, hand):
         before_all_starts = time.time()
 
-        print 'Hand: |',
+        print 'Hand:',
         for card in hand:
-            print card, '|',
+            print card, 
             self.desk.remove(card)
         print
 
@@ -32,23 +32,21 @@ class Solver():
         max_cards = None
         no = 0
         for cards in hands:
-            self.cur_sum = 0
-            self.cur_num = 0
             start = time.time()
             e, s, n = self.expectation(cards)
             end = time.time()
             no += 1
-            print '[No.%2d] E = %7d/%6d = %5.2f, spent: %6.3fs, held: |' % (no, s, n, e, end - start),
+            print '[No.%2d] E = %7d/%6d = %5.2f, spent: %6.3fs, held:' % (no, s, n, e, end - start),
             for card in cards:
-                print card, '|',
+                print card,
             print
 
             if e > max_e:
                 max_e, max_cards = e, cards
 
-        print 'Recommendation: E = %.2f, Hold |' % max_e,
+        print 'Recommendation: E = %.2f, Hold' % max_e,
         for card in max_cards:
-            print card, '|',
+            print card, 
         print
 
         after_all_ends = time.time()
@@ -66,6 +64,8 @@ class Solver():
         return res
 
     def expectation(self, cards):
+        self.cur_sum = 0
+        self.cur_num = 0
         self.choose(cards, 0)
         return float(self.cur_sum) / self.cur_num, self.cur_sum, self.cur_num
         
