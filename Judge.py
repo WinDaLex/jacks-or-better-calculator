@@ -7,21 +7,18 @@ PAYOFF = {'Royal Flush': 5000, 'Straight Flush': 1500, \
 
 def judge(hand):
     result = compute(hand)
-    return result, PAYOFF[result]
+    payoff = PAYOFF[result]
+    return result, payoff
 
 def compute(hand):
     m = hand.dividedByRank()
     numOfRank = sorted(m.values(), reverse=True)
 
     if numOfRank[0] == 4: return 'Four of a Kind'
-
-    if numOfRank[0] == 3:
-        if numOfRank[1] == 2: return 'Full House'
-        else: return 'Three of a Kind'
-
+    if numOfRank[0] == 3 and numOfRank[1] == 2: return 'Full House'
+    if numOfRank[0] == 3: return 'Three of a Kind'
+    if numOfRank[0] == 2 and numOfRank[1] == 2: return 'Two Pair'
     if numOfRank[0] == 2:
-        if numOfRank[1] == 2: return 'Two Pair'
-    else:
         for i in range(0, 5):
             if hand[i].rank in ['J', 'Q', 'K', 'A']:
                 for j in range(i+1, 5):
