@@ -41,7 +41,8 @@ class Solver():
 
     def hold(self, hand):
         res = []
-        for i in range(2**5):
+        # not include the situation that nothing is held, coz it spends too much time.
+        for i in range(1, 2**5):
             cur = []
             for j in range(5):
                 if 2**j & i >= 1:
