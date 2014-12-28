@@ -27,7 +27,7 @@ def compute(hand):
 
     if isFlush(hand):
         if isStraight(hand):
-            for i in range(0, 5):
+            for i in range(5):
                 if hand[i].rank == 'A':
                     return 'Royal Flush'
             return 'Straight Flush'
@@ -39,21 +39,24 @@ def compute(hand):
     return 'Nothing'
 
 def isFlush(hand):
-    return hand.dividedBySuit().values()[0] == 5
+    for i in range(1, 5):
+        if hand[i].suit != hand[0].suit:
+            return False
+    return True
 
 def isStraight(hand):
     l = []
-    for i in range(0, 5):
-        if hand[i].rank == 'A': l.extend([1, 14])
+    for i in range(5):
+        if hand[i].rank == 'A': l.append(1)
         elif hand[i].rank == '10': l.append(10)
         elif hand[i].rank == 'J': l.append(11)
         elif hand[i].rank == 'Q': l.append(12)
         elif hand[i].rank == 'K': l.append(13)
         else: l.append(int(hand[i].rank))
     l.sort()
-    bo = True
+
     for i in range(2, 5):
         if l[i] != l[i - 1] + 1:
-            bo = False
+            return False
 
-    if bo: return l[0] == l[1] - 1 or len(l) == 6 and l[5] == 14 and l[4] == 13
+    return l[0] == l[1] - 1 or l[0] == 1 and l[4] == 13
