@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import unittest
 
 from Card import *
@@ -14,7 +16,7 @@ class TestCardClass(unittest.TestCase):
             card = Card('club', '1')
 
     def test__str__(self):
-        self.assertEqual(Card('club', 'K').__str__(), 'club K')
+        self.assertEqual(Card('club', 'K').__str__(), '♣K')
  
 class TestHandClass(unittest.TestCase):
 
