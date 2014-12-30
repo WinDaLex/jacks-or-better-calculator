@@ -1,6 +1,9 @@
 from Card import *
 import time
 
+'''
+Reference: http://www.suffecool.net/poker/evaluator.html
+'''
 
 PAYOFF = {'Royal Flush': 5000, \
           'Straight Flush': 1500, \
@@ -42,32 +45,28 @@ def compute(hand):
 
     end1 = time.time()
 
-    if isFlush(hand):
-        if isStraight(hand):
-            bo = False
-            for i in range(5):
-                if hand[i].rank == 'A':
-                    bo = True
-            if bo: result = 'Royal Flush'
-            else: result = 'Straight Flush'
-        else:
-            result = 'Flush'
+    if isFlush(hand) and isRoyal(hand): result = 'Royal Flush'
+    elif isFlush(hand) and isStraight(hand): result = 'Straight Flush'
+    elif isFlush(hand): result = 'Flush'
+    elif isStraight(hand): result = 'Straight'
+
     end2 = time.time()
 
-    if result == 'Nothing' and isStraight(hand): result = 'Straight'
+    return result, [end1 - start, end2 - end1]
 
-    end3 = time.time()
-
-    return result, [end1 - start, end2 - end1, end3 - end2]
+def isRoyal(hand):
+    global PRODUCT_ROYAL_FLUSH
+    product = 1
+    for i in range(5):
+        product *= Card.primeOfRank[hand[i].rank]
+    return product == 31367009
 
 def isFlush(hand):
-    return hand[0].suit == hand[1].suit == hand[2].suit == hand[3].suit == hand[4].suit
+    return Card.bitOfSuit[hand[0].suit] & Card.bitOfSuit[hand[1].suit] & Card.bitOfSuit[hand[2].suit] & Card.bitOfSuit[hand[3].suit] & Card.bitOfSuit[hand[4].suit] > 0
 
 def isStraight(hand):
     global PRODUCT_STRAIGHT
-
     product = 1
     for i in range(5):
-        product *= Card.prime_of_rank[hand[i].rank]
-
+        product *= Card.primeOfRank[hand[i].rank]
     return product in PRODUCT_STRAIGHT

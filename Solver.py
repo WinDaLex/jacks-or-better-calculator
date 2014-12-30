@@ -13,6 +13,10 @@ def init(hand):
     global desk
     global cur_sum
     global cur_num
+    global t
+
+    t = [0, 0, 0]
+
     desk = []
     for suit in Card.suits:
         for rank in Card.ranks:
@@ -56,7 +60,7 @@ def solve(hand):
 
     after_all_ends = time.time()
     print 'Total time spent: %.3fs' % (after_all_ends - before_all_starts)
-    print 'time spent of stage1, stage2, stage3: %.3fs, %.3fs, %.3fs' % tuple(t)
+    print 'time spent of stage1, stage2: %.3fs, %.3fs' % tuple(t)
     print 'time spent of judge: %.3fs' % sum(t)
 
 def hold(hand):
@@ -85,7 +89,7 @@ def choose(cards, index):
     global t
     if len(cards) == 5:
         result, payoff, tt = Judge.judge(Hand(cards))
-        for i in range(3): t[i] += tt[i]
+        for i in range(2): t[i] += tt[i]
         cur_sum += payoff
         cur_num += 1
         return

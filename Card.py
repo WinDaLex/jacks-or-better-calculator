@@ -3,11 +3,12 @@
 class Card():
     """A poker card with 4 kinds of suit and 13 kinds of rank, but excluding jokers."""
 
-    suits = ['S', 'H', 'C', 'D'] # spade, heart, club, diamond
+    suits = ['S', 'H', 'C', 'D'] # S: spade; H: heart, C: club; D: diamond
     ranks = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
     suitsToChar = {'S':'♠', 'H':'♥', 'C':'♣', 'D':'♦'}
-    prime_of_rank = {'2':2, '3':3, '4':5, '5':7, '6':11, '7':13, '8':17, \
+    primeOfRank = {'2':2, '3':3, '4':5, '5':7, '6':11, '7':13, '8':17, \
             '9':19, 'T':23, 'J':29, 'Q':31, 'K':37, 'A':41}
+    bitOfSuit = {'S':1, 'H':2, 'C':4, 'D':8}
 
     def __init__(self, suit, rank):
         if suit not in self.suits: raise ValueError, 'invalid suit'; return
