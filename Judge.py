@@ -1,11 +1,19 @@
 from Card import *
 import time
 
-PAYOFF = {'Royal Flush': 5000, 'Straight Flush': 1500, \
-        'Four of a Kind': 600, 'Full House': 300, 'Flush': 200, \
-        'Straight': 125, 'Three of a Kind': 75, 'Two Pair': 40, \
-        'Jacks or Better': 10, 'Nothing': 0}
 
+PAYOFF = {'Royal Flush': 5000, \
+          'Straight Flush': 1500, \
+          'Four of a Kind': 600, \
+          'Full House': 300, \
+          'Flush': 200, \
+          'Straight': 125, \
+          'Three of a Kind': 75, \
+          'Two Pair': 40, \
+          'Jacks or Better': 10, \
+          'Nothing': 0}
+
+PRODUCT_STRAIGHT = (8610, 2310, 15015, 85085, 323323, 1062347, 2800733, 6678671, 14535931, 31367009)
 
 def judge(hand):
     result, time = compute(hand)
@@ -56,18 +64,10 @@ def isFlush(hand):
     return hand[0].suit == hand[1].suit == hand[2].suit == hand[3].suit == hand[4].suit
 
 def isStraight(hand):
-    l = []
+    global PRODUCT_STRAIGHT
+
+    product = 1
     for i in range(5):
-        if hand[i].rank == 'A': l.append(1)
-        elif hand[i].rank == '10': l.append(10)
-        elif hand[i].rank == 'J': l.append(11)
-        elif hand[i].rank == 'Q': l.append(12)
-        elif hand[i].rank == 'K': l.append(13)
-        else: l.append(int(hand[i].rank))
-    l.sort()
+        product *= Card.prime_of_rank[hand[i].rank]
 
-    for i in range(2, 5):
-        if l[i] != l[i - 1] + 1:
-            return False
-
-    return l[0] == l[1] - 1 or l[0] == 1 and l[4] == 13
+    return product in PRODUCT_STRAIGHT

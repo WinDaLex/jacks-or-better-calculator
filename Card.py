@@ -6,6 +6,8 @@ class Card():
     suits = ['spade', 'heart', 'club', 'diamond']
     ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
     suitsToChar = {'spade':'♠', 'heart':'♥', 'club':'♣', 'diamond':'♦'}
+    prime_of_rank = {'2':2, '3':3, '4':5, '5':7, '6':11, '7':13, '8':17, \
+            '9':19, '10':23, 'J':29, 'Q':31, 'K':37, 'A':41}
 
     def __init__(self, suit, rank):
         if suit not in self.suits: raise ValueError, 'invalid suit'; return
