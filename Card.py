@@ -29,7 +29,7 @@ class Hand():
         self.cards = cards
         if type(cards) == type(''):
             self.cards = []
-            for suit_and_rank in cards.split(','):
+            for suit_and_rank in cards.split(' '):
                 rank, suit = suit_and_rank.strip()
                 self.cards.append(Card(suit, rank))
         if type(self.cards) == type([]):
