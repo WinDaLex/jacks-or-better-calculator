@@ -7,7 +7,7 @@ from Game import *
 desk = []
 cur_sum = 0
 cur_num = 0
-t = [0, 0, 0]
+t = [0, 0]
 
 def init(hand):
     global desk
@@ -15,7 +15,7 @@ def init(hand):
     global cur_num
     global t
 
-    t = [0, 0, 0]
+    t = [0, 0]
 
     desk = []
     for suit in Card.suits:
