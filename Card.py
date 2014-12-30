@@ -8,13 +8,17 @@ class Card():
     suitsToChar = {'S':'♠', 'H':'♥', 'C':'♣', 'D':'♦'}
     primeOfRank = {'2':2, '3':3, '4':5, '5':7, '6':11, '7':13, '8':17, \
             '9':19, 'T':23, 'J':29, 'Q':31, 'K':37, 'A':41}
-    bitOfSuit = {'S':1, 'H':2, 'C':4, 'D':8}
+    bitOfSuit = {'S':1<<0, 'H':1<<1, 'C':1<<2, 'D':1<<3}
 
     def __init__(self, suit, rank):
         if suit not in self.suits: raise ValueError, 'invalid suit'; return
         if rank not in self.ranks: raise ValueError, 'invalid rank'; return 
         self.suit = suit
         self.rank = rank
+        # val = xxxxxxxx xxxxxxxx CDHSxxxx xxPPPPPP (a 32-bit integer)
+        # P = prime number of rank (deuce=2,trey=3,four=5,...,ace=41)
+        # CDHS = suit of card (bit turned on based on suit of card)
+        self.val = self.bitOfSuit[suit] * 0x1000 + self.primeOfRank[rank]
 
     def __str__(self):
         return self.suitsToChar[self.suit] + self.rank

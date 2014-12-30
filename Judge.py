@@ -1,4 +1,3 @@
-from Card import *
 import time
 
 '''
@@ -58,15 +57,17 @@ def isRoyal(hand):
     global PRODUCT_ROYAL_FLUSH
     product = 1
     for i in range(5):
-        product *= Card.primeOfRank[hand[i].rank]
+        product *= hand[i].val & 0xff
     return product == 31367009
 
 def isFlush(hand):
-    return Card.bitOfSuit[hand[0].suit] & Card.bitOfSuit[hand[1].suit] & Card.bitOfSuit[hand[2].suit] & Card.bitOfSuit[hand[3].suit] & Card.bitOfSuit[hand[4].suit] > 0
+    # return hand[0].val & hand[1].val & hand[2].val & hand[3].val & hand[4].val & 0xF000 > 0
+    # It is slower than the regular code
+    return hand[0].suit == hand[1].suit == hand[2].suit == hand[3].suit == hand[4].suit
 
 def isStraight(hand):
     global PRODUCT_STRAIGHT
     product = 1
     for i in range(5):
-        product *= Card.primeOfRank[hand[i].rank]
+        product *= hand[i].val & 0xff
     return product in PRODUCT_STRAIGHT
