@@ -3,9 +3,9 @@
 class Card():
     """A poker card with 4 kinds of suit and 13 kinds of rank, but excluding jokers."""
 
-    suits = ['spade', 'heart', 'club', 'diamond']
-    ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K']
-    suitsToChar = {'spade':'♠', 'heart':'♥', 'club':'♣', 'diamond':'♦'}
+    suits = ['S', 'H', 'C', 'D'] # spade, heart, club, diamond
+    ranks = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
+    suitsToChar = {'S':'♠', 'H':'♥', 'C':'♣', 'D':'♦'}
     prime_of_rank = {'2':2, '3':3, '4':5, '5':7, '6':11, '7':13, '8':17, \
             '9':19, 'T':23, 'J':29, 'Q':31, 'K':37, 'A':41}
 
@@ -30,7 +30,7 @@ class Hand():
         if type(cards) == type(''):
             self.cards = []
             for suit_and_rank in cards.split(','):
-                suit, rank = suit_and_rank.strip().split(' ')
+                rank, suit = suit_and_rank.strip()
                 self.cards.append(Card(suit, rank))
         if type(self.cards) == type([]):
             if len(self.cards) != 5:
