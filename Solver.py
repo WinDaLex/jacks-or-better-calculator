@@ -7,6 +7,7 @@ from Game import *
 desk = []
 cur_sum = 0
 cur_num = 0
+t = [0, 0, 0]
 
 def init(hand):
     global desk
@@ -23,8 +24,7 @@ def init(hand):
         desk.remove(card)
 
 def solve(hand):
-    global cur_sum
-    global cur_num
+    global t
 
     before_all_starts = time.time()
 
@@ -56,6 +56,8 @@ def solve(hand):
 
     after_all_ends = time.time()
     print 'Total time spent: %.3fs' % (after_all_ends - before_all_starts)
+    print 'time spent of stage1, stage2, stage3: %.3fs, %.3fs, %.3fs' % tuple(t)
+    print 'time spent of judge: %.3fs' % sum(t)
 
 def hold(hand):
     # not include the situation that nothing is held, coz it spends too much time.
@@ -80,8 +82,10 @@ def choose(cards, index):
     global desk
     global cur_sum
     global cur_num
+    global t
     if len(cards) == 5:
-        result, payoff = Judge.judge(Hand(cards))
+        result, payoff, tt = Judge.judge(Hand(cards))
+        for i in range(3): t[i] += tt[i]
         cur_sum += payoff
         cur_num += 1
         return

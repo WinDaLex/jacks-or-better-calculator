@@ -1,48 +1,59 @@
 from Card import *
+import time
 
 PAYOFF = {'Royal Flush': 5000, 'Straight Flush': 1500, \
         'Four of a Kind': 600, 'Full House': 300, 'Flush': 200, \
         'Straight': 125, 'Three of a Kind': 75, 'Two Pair': 40, \
         'Jacks or Better': 10, 'Nothing': 0}
 
+
 def judge(hand):
-    result = compute(hand)
+    result, time = compute(hand)
     payoff = PAYOFF[result]
-    return result, payoff
+
+    return result, payoff, time
 
 def compute(hand):
+    result = 'Nothing'
+
+    start = time.time()
+
     m = hand.dividedByRank()
     numOfRank = sorted(m.values(), reverse=True)
 
-    if numOfRank[0] == 4: return 'Four of a Kind'
-    if numOfRank[0] == 3 and numOfRank[1] == 2: return 'Full House'
-    if numOfRank[0] == 3: return 'Three of a Kind'
-    if numOfRank[0] == 2 and numOfRank[1] == 2: return 'Two Pair'
-    if numOfRank[0] == 2:
+    if numOfRank[0] == 4: result = 'Four of a Kind'
+    elif numOfRank[0] == 3 and numOfRank[1] == 2: result = 'Full House'
+    elif numOfRank[0] == 3: result = 'Three of a Kind'
+    elif numOfRank[0] == 2 and numOfRank[1] == 2: result = 'Two Pair'
+    elif numOfRank[0] == 2:
         for i in range(0, 5):
             if hand[i].rank in ['J', 'Q', 'K', 'A']:
                 for j in range(i+1, 5):
                     if hand[i].rank == hand[j].rank:
-                        return 'Jacks or Better'
+                        result = 'Jacks or Better'
+
+    end1 = time.time()
 
     if isFlush(hand):
         if isStraight(hand):
+            bo = False
             for i in range(5):
                 if hand[i].rank == 'A':
-                    return 'Royal Flush'
-            return 'Straight Flush'
+                    bo = True
+            if bo: result = 'Royal Flush'
+            else: result = 'Straight Flush'
         else:
-            return 'Flush'
+            result = 'Flush'
+    end2 = time.time()
 
-    if isStraight(hand): return 'Straight'
+    if result == 'Nothing' and isStraight(hand): result = 'Straight'
 
-    return 'Nothing'
+    end3 = time.time()
+
+    return result, [end1 - start, end2 - end1, end3 - end2]
 
 def isFlush(hand):
-    for i in range(1, 5):
-        if hand[i].suit != hand[0].suit:
-            return False
-    return True
+    return hand[0].suit == hand[1].suit == hand[2].suit == hand[3].suit == hand[4].suit
 
 def isStraight(hand):
     l = []
