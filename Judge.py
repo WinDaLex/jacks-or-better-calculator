@@ -1,26 +1,40 @@
 import time
 
 '''
-  Reference: http://www.suffecool.net/poker/evaluator.html
+  reference: http://www.suffecool.net/poker/evaluator.html
 '''
 
-PAYOFF = {'Royal Flush': 5000, \
-          'Straight Flush': 1500, \
-          'Four of a Kind': 600, \
-          'Full House': 300, \
-          'Flush': 200, \
-          'Straight': 125, \
-          'Three of a Kind': 75, \
-          'Two Pair': 40, \
-          'Jacks or Better': 10, \
-          'Nothing': 0}
+
+ROYAL_FLUSH = 'Royal Flush'
+STRAIGHT_FLUSH = 'Straight Flush'
+FOUR_OF_A_KIND = 'Four of a Kind'
+FULL_HOUSE = 'Full House'
+FLUSH = 'Flush'
+STRAIGHT = 'Straight'
+THREE_OF_A_KIND = 'Three of a Kind'
+TWO_PAIR = 'Two Pair'
+JACKS_OR_BETTER = 'Jacks or Better'
+NOTHING = 'Nothing'
+
+PAYOFF = {ROYAL_FLUSH: 5000, \
+          STRAIGHT_FLUSH: 1500, \
+          FOUR_OF_A_KIND: 600, \
+          FULL_HOUSE: 300, \
+          FLUSH: 200, \
+          STRAIGHT: 125, \
+          THREE_OF_A_KIND: 75, \
+          TWO_PAIR: 40, \
+          JACKS_OR_BETTER: 10, \
+          NOTHING: 0}
 
 PRODUCT_STRAIGHT = (8610, 2310, 15015, 85085, 323323, 1062347, 2800733, 6678671, 14535931, 31367009)
 
+
 def judge(hand):
-    result = 'Nothing'
 
     start = time.time()
+
+    result = NOTHING
 
     m = hand.dividedByRank()
 
@@ -35,28 +49,30 @@ def judge(hand):
 
     bo = False
 
-    if maxv1 == 4:
-        result = 'Four of a Kind'
-    elif maxv1 == 3 and maxv2 == 2:
-        result = 'Full House'
-    elif maxv1 == 3:
-        result = 'Three of a Kind'
-    elif maxv1 == 2 and maxv2 == 2:
-        result = 'Two Pair'
+    if maxv1 == 2 and maxv2 == 2:
+        result = TWO_PAIR
     elif maxv1 == 2:
         if maxk1 in ['J', 'Q', 'K', 'A']:
-            result = 'Jacks or Better'
+            result = JACKS_OR_BETTER
         bo = True
+    elif maxv1 == 3 and maxv2 == 2:
+        result = FULL_HOUSE
+    elif maxv1 == 3:
+        result = THREE_OF_A_KIND
+    elif maxv1 == 4:
+        result = FOUR_OF_A_KIND
 
     end1 = time.time()
 
     # if a pair or much appear, it's impossible to appear flush or straight
-    if bo or result != 'Nothing': return result, PAYOFF[result], [end1 - start, 0]
+    if bo or result != NOTHING: return result, PAYOFF[result], [end1 - start, 0]
 
-    if isFlush(hand) and isRoyal(hand): result = 'Royal Flush'
-    elif isFlush(hand) and isStraight(hand): result = 'Straight Flush'
-    elif isFlush(hand): result = 'Flush'
-    elif isStraight(hand): result = 'Straight'
+    if isFlush(hand):
+        if isStraight(hand):
+            if isRoyal(hand): result = 'Royal Flush'
+            else: result = STRAIGHT_FLUSH
+        else: result = FLUSH
+    elif isStraight(hand): result = STRAIGHT
 
     end2 = time.time()
 
