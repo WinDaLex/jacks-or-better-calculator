@@ -1,7 +1,7 @@
 import time
 
 '''
-Reference: http://www.suffecool.net/poker/evaluator.html
+  Reference: http://www.suffecool.net/poker/evaluator.html
 '''
 
 PAYOFF = {'Royal Flush': 5000, \
@@ -18,35 +18,40 @@ PAYOFF = {'Royal Flush': 5000, \
 PRODUCT_STRAIGHT = (8610, 2310, 15015, 85085, 323323, 1062347, 2800733, 6678671, 14535931, 31367009)
 
 def judge(hand):
-    result, time = compute(hand)
-    payoff = PAYOFF[result]
-
-    return result, payoff, time
-
-def compute(hand):
     result = 'Nothing'
 
     start = time.time()
 
     m = hand.dividedByRank()
 
-    numOfRank = sorted(m.values(), reverse=True)
+    maxv1, maxk1 = 0, ''
+    maxv2, maxk2 = 0, ''
+    for k, v in m.iteritems():
+        if v > maxv1:
+            maxk2, maxv2 = maxk1, maxv1
+            maxk1, maxv1 = k, v
+        elif v > maxv2:
+            maxk2, maxv2 = k, v
 
-    if numOfRank[0] == 4: result = 'Four of a Kind'
-    elif numOfRank[0] == 3 and numOfRank[1] == 2: result = 'Full House'
-    elif numOfRank[0] == 3: result = 'Three of a Kind'
-    elif numOfRank[0] == 2 and numOfRank[1] == 2: result = 'Two Pair'
-    elif numOfRank[0] == 2:
-        for i in range(0, 5):
-            if hand[i].rank in ['J', 'Q', 'K', 'A']:
-                for j in range(i+1, 5):
-                    if hand[i].rank == hand[j].rank:
-                        result = 'Jacks or Better'
+    bo = False
+
+    if maxv1 == 4:
+        result = 'Four of a Kind'
+    elif maxv1 == 3 and maxv2 == 2:
+        result = 'Full House'
+    elif maxv1 == 3:
+        result = 'Three of a Kind'
+    elif maxv1 == 2 and maxv2 == 2:
+        result = 'Two Pair'
+    elif maxv1 == 2:
+        if maxk1 in ['J', 'Q', 'K', 'A']:
+            result = 'Jacks or Better'
+        bo = True
 
     end1 = time.time()
 
-    # if pair or much appear, it's impossible to appear flush or straight
-    if result != 'Nothing': return result, [end1 - start, 0]
+    # if a pair or much appear, it's impossible to appear flush or straight
+    if bo or result != 'Nothing': return result, PAYOFF[result], [end1 - start, 0]
 
     if isFlush(hand) and isRoyal(hand): result = 'Royal Flush'
     elif isFlush(hand) and isStraight(hand): result = 'Straight Flush'
@@ -55,7 +60,7 @@ def compute(hand):
 
     end2 = time.time()
 
-    return result, [end1 - start, end2 - end1]
+    return result, PAYOFF[result], [end1 - start, end2 - end1]
 
 def isRoyal(hand):
     global PRODUCT_ROYAL_FLUSH
