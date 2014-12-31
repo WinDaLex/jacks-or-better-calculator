@@ -29,6 +29,7 @@ def compute(hand):
     start = time.time()
 
     m = hand.dividedByRank()
+
     numOfRank = sorted(m.values(), reverse=True)
 
     if numOfRank[0] == 4: result = 'Four of a Kind'
@@ -43,6 +44,9 @@ def compute(hand):
                         result = 'Jacks or Better'
 
     end1 = time.time()
+
+    # if pair or much appear, it's impossible to appear flush or straight
+    if result != 'Nothing': return result, [end1 - start, 0]
 
     if isFlush(hand) and isRoyal(hand): result = 'Royal Flush'
     elif isFlush(hand) and isStraight(hand): result = 'Straight Flush'
