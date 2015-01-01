@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import time
-
 '''
   reference: http://www.suffecool.net/poker/evaluator.html
 '''
@@ -34,8 +32,6 @@ PRODUCT_STRAIGHT = (8610, 2310, 15015, 85085, 323323, 1062347, 2800733, 6678671,
 
 def judge(hand):
 
-    start = time.time()
-
     result = NOTHING
 
     m = hand.dividedByRank()
@@ -64,10 +60,8 @@ def judge(hand):
     elif maxv1 == 4:
         result = FOUR_OF_A_KIND
 
-    end1 = time.time()
-
     # if a pair or much appear, it's impossible to appear flush or straight
-    if bo or result != NOTHING: return result, PAYOFF[result], [end1 - start, 0]
+    if bo or result != NOTHING: return result, PAYOFF[result]
 
     if isFlush(hand):
         if isStraight(hand):
@@ -76,9 +70,7 @@ def judge(hand):
         else: result = FLUSH
     elif isStraight(hand): result = STRAIGHT
 
-    end2 = time.time()
-
-    return result, PAYOFF[result], [end1 - start, end2 - end1]
+    return result, PAYOFF[result]
 
 def isRoyal(hand):
     global PRODUCT_ROYAL_FLUSH
