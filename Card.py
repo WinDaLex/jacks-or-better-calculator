@@ -49,6 +49,9 @@ class Hand():
     def __getitem__(self, ind):
         return self.cards.__getitem__(ind)
 
+    def __setitem__(self, key, value):
+        self.cards[key] = value
+
     def dividedBySuit(self):
         return self.__dividedBy('suit')
 
